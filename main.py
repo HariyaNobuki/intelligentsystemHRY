@@ -14,6 +14,12 @@ from keras.layers import Dropout,Dense,Activation,BatchNormalization
 # iris dataset
 from sklearn.datasets import load_iris
 
+# PCA - Kmeans
+from sklearn.decomposition import PCA
+from sklearn.cluster import KMeans
+from sklearn.metrics import confusion_matrix
+from sklearn.manifold import TSNE
+
 def myModel(input,n_class,deep):
     model = Sequential()
     model.add(Dense(HIDDEN, input_shape=input))
