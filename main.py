@@ -36,15 +36,13 @@ if __name__ == '__main__':
     x_train[:,1] = x_train[:,1]/max(x_train[:,1])
     x_train[:,2] = x_train[:,2]/max(x_train[:,2])
     x_train[:,3] = x_train[:,3]/max(x_train[:,3])
-    # one-hot encoding
-    y_train = np_utils.to_categorical(y_train)
 
     pca = PCA(n_components=2)
     pca.fit(x_train)
     feature = pca.transform(x_train)   # 主成分分析で変換 (60000,784)
 
     fig = plt.figure()
-    plt.scatter(feature[:,0],feature[:,1],alpha=0.8,c=y_train)
+    plt.scatter(feature[:,0],feature[:,1],alpha=0.8,c=y_train,label=y_train)
     plt.legend()
     plt.xlabel("x0")
     plt.ylabel("x1")
@@ -97,7 +95,7 @@ if __name__ == '__main__':
     for i in range(5,15):
         KM = KMeans(n_clusters = i)
         result = KM.fit(feature[:,:9])
-        df_eval = pd.DataFrame(confusion_matrix(train_labels,result.labels_))
+        df_eval = pd.DataFrame(confusion_matrix(y_train,result.labels_))
         eval_acc = df_eval.max().sum()/df_eval.sum().sum()
         eval_acc_list.append(eval_acc)
 
