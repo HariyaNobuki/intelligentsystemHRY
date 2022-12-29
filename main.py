@@ -38,13 +38,15 @@ if __name__ == '__main__':
     # one-hot encoding
     y_train = np_utils.to_categorical(y_train)
 
-    pca = PCA()
+    pca = PCA(n_components=2)
     pca.fit(x_train)
     feature = pca.transform(x_train)   # 主成分分析で変換 (60000,784)
 
     fig = plt.figure()
     plt.scatter(feature[:,0],feature[:,1],alpha=0.8,c=y_train)
     plt.legend()
+    plt.xlabel("x0")
+    plt.ylabel("x1")
     fig.savefig("PCA.png")
     plt.clf()
     plt.close()
