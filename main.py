@@ -25,7 +25,7 @@ from sklearn.manifold import TSNE
 
 if __name__ == '__main__':
     print(crayons.red("Main Program"))
-    opt = keras.optimizers.Adam(learning_rate=0.001)
+
     iris = load_iris()
     x_train = iris.data
     y_train = iris.target
@@ -43,7 +43,6 @@ if __name__ == '__main__':
 
     fig = plt.figure()
     plt.scatter(feature[:,0],feature[:,1],alpha=0.8,c=y_train,label=y_train)
-    plt.legend()
     plt.xlabel("x0")
     plt.ylabel("x1")
     fig.savefig("PCA.png")
@@ -79,8 +78,8 @@ if __name__ == '__main__':
     plt.clf()
     plt.close()
 
-    KM = KMeans(n_clusters = 10)
-    result = KM.fit(feature[:,:9])
+    KM = KMeans(n_clusters = 5)
+    result = KM.fit(feature[:,:4])
 
     df_eval = pd.DataFrame(confusion_matrix(y_train,result.labels_))   # 混同行列
     df_eval.columns = df_eval.idxmax()  # 縦に予測している
@@ -92,15 +91,15 @@ if __name__ == '__main__':
     #クラスタの中のデータの最も多いラベルを正解ラベルとしてそれが多くなるようなクラスタ数を探索
     eval_acc_list=[]
 
-    for i in range(5,15):
+    for i in range(0,5):
         KM = KMeans(n_clusters = i)
-        result = KM.fit(feature[:,:9])
+        #result = KM.fit(feature[:,:4])
         df_eval = pd.DataFrame(confusion_matrix(y_train,result.labels_))
         eval_acc = df_eval.max().sum()/df_eval.sum().sum()
         eval_acc_list.append(eval_acc)
 
     fig = plt.figure()
-    plt.plot(range(5,15),eval_acc_list)
+    plt.plot(range(0,5),eval_acc_list)
     plt.xlabel("The number of cluster")
     plt.ylabel("accuracy")
     fig.savefig("Thenumberofcluster.png")
